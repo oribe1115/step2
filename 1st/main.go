@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/oribe1115/step2/1st/lib"
 )
@@ -28,7 +29,10 @@ func main() {
 	fmt.Println("B")
 	lib.PrintMatrix(b)
 
+	start := time.Now()
 	c := lib.MultiplyMatrices(a, b)
+	end := time.Now()
+
 	fmt.Println("---")
 	fmt.Println("C")
 	lib.PrintMatrix(c)
@@ -36,4 +40,6 @@ func main() {
 	total := lib.SumMatrixElements(c)
 	fmt.Println("---")
 	fmt.Println(total)
+
+	fmt.Println(end.Sub(start).Nanoseconds())
 }
