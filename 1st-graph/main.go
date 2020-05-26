@@ -14,6 +14,13 @@ func main() {
 	_, err := lib.MeasureRunTimes(start, end, count)
 	if err != nil {
 		fmt.Println(err)
+		return
+	}
+
+	err = lib.PlotTest()
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
 }
