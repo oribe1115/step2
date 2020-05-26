@@ -23,6 +23,11 @@ func main() {
 		return
 	}
 
+	if n < 2 {
+		fmt.Println("2以上の値を引数に設定してください")
+		return
+	}
+
 	a, b := lib.InitMatrices(n)
 
 	start := time.Now()
