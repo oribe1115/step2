@@ -18,9 +18,9 @@ func PlotGraph(data []XYAxis) error {
 		return err
 	}
 
-	p.Title.Text = "title"
-	p.X.Label.Text = "size of matrix"
-	p.Y.Label.Text = "run times(nanoseconds)"
+	p.Title.Text = "Relationship between Run Times and Size of Matrix"
+	p.X.Label.Text = "Size of Matrix"
+	p.Y.Label.Text = "Run Times (nanoseconds)"
 
 	pts := make(plotter.XYs, len(data))
 	for i, axis := range data {
