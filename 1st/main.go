@@ -24,22 +24,30 @@ func main() {
 	}
 
 	a, b := lib.InitMatrices(n)
-	fmt.Println("A")
-	lib.PrintMatrix(a)
-	fmt.Println("B")
-	lib.PrintMatrix(b)
 
 	start := time.Now()
 	c := lib.MultiplyMatrices(a, b)
 	end := time.Now()
 
-	fmt.Println("---")
-	fmt.Println("C")
-	lib.PrintMatrix(c)
-
 	total := lib.SumMatrixElements(c)
-	fmt.Println("---")
-	fmt.Println(total)
+
+	if len(args) > 1 && args[1] == "log" {
+		fmt.Println("A")
+		lib.PrintMatrix(a)
+		fmt.Println("B")
+		lib.PrintMatrix(b)
+
+		fmt.Println("---")
+
+		fmt.Println("C")
+		lib.PrintMatrix(c)
+		fmt.Printf("total: %d\n", total)
+
+		fmt.Println("---")
+
+		fmt.Println("実行時間(ナノ秒)")
+	}
 
 	fmt.Println(end.Sub(start).Nanoseconds())
+
 }
