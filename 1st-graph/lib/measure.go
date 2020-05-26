@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"log"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -14,8 +15,6 @@ func MeasureRunTimes(start, end, count int) (map[int][]int, error) {
 		runTimes[i] = make([]int, count)
 		cmdStr := fmt.Sprintf("cd ../1st/; go run main.go %d", i)
 
-		fmt.Printf("%d: ", i)
-
 		for j := 0; j < count; j++ {
 			out, err := exec.Command("sh", "-c", cmdStr).Output()
 			if err != nil {
@@ -26,10 +25,9 @@ func MeasureRunTimes(start, end, count int) (map[int][]int, error) {
 				return nil, err
 			}
 			runTimes[i][j] = time
-			fmt.Printf("%d ", time)
 		}
 
-		fmt.Printf("\n")
+		log.Printf("finish measure: N = %d\n", i)
 	}
 
 	return runTimes, nil

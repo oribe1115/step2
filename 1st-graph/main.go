@@ -9,7 +9,7 @@ import (
 func main() {
 	start := 3
 	end := 10
-	count := 5
+	count := 10
 
 	runTimes, err := lib.MeasureRunTimes(start, end, count)
 	if err != nil {
@@ -17,13 +17,11 @@ func main() {
 		return
 	}
 
-	data := lib.SetData(runTimes)
+	data := lib.SetData(runTimes, start, end)
 
-	// err = lib.PlotTest()
 	err = lib.PlotGraph(data)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
 }

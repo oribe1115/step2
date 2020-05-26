@@ -1,8 +1,6 @@
 package lib
 
 import (
-	"fmt"
-
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
 	"gonum.org/v1/plot/plotutil"
@@ -12,40 +10,6 @@ import (
 type XYAxis struct {
 	X float64
 	Y float64
-}
-
-func PlotTest() error {
-	p, err := plot.New()
-	if err != nil {
-		return err
-	}
-
-	p.Title.Text = "title"
-	p.X.Label.Text = "size of matrix"
-	p.Y.Label.Text = "run times(nanoseconds)"
-
-	nums := []XYAxis{
-		{3, 384},
-		{4, 436},
-		{5, 605},
-	}
-
-	pts := make(plotter.XYs, len(nums))
-	for i, axis := range nums {
-		pts[i].X = axis.X
-		pts[i].Y = axis.Y
-	}
-
-	err = plotutil.AddLinePoints(p, pts)
-	if err != nil {
-		return err
-	}
-
-	if err := p.Save(5*vg.Inch, 5*vg.Inch, "sample1.png"); err != nil {
-		panic(err)
-	}
-
-	return nil
 }
 
 func PlotGraph(data []XYAxis) error {
@@ -69,17 +33,18 @@ func PlotGraph(data []XYAxis) error {
 		return err
 	}
 
-	if err := p.Save(5*vg.Inch, 5*vg.Inch, "sample1.png"); err != nil {
+	if err := p.Save(5*vg.Inch, 5*vg.Inch, "runTimes.png"); err != nil {
 		panic(err)
 	}
 
 	return nil
 }
 
-func SetData(runTimes map[int][]int) []XYAxis {
+func SetData(runTimes map[int][]int, start, end int) []XYAxis {
 	data := make([]XYAxis, 0)
 
-	for key, values := range runTimes {
+	for i := start; i <= end; i++ {
+		values := runTimes[i]
 		var average float64
 		average = 0
 		for _, v := range values {
@@ -88,13 +53,10 @@ func SetData(runTimes map[int][]int) []XYAxis {
 		average /= float64(len(values))
 
 		d := XYAxis{
-			X: float64(key),
+			X: float64(i),
 			Y: average,
 		}
 		data = append(data, d)
-
-		fmt.Printf("%d: ", key)
-		fmt.Println(average)
 	}
 
 	return data
