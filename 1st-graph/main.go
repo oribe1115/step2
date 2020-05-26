@@ -8,8 +8,8 @@ import (
 
 func main() {
 	start := 3
-	end := 10
-	count := 10
+	end := 20
+	count := 100
 
 	runTimes, err := lib.MeasureRunTimes(start, end, count)
 	if err != nil {
