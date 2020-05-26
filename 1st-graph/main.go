@@ -8,16 +8,19 @@ import (
 
 func main() {
 	start := 3
-	end := 5
+	end := 10
 	count := 5
 
-	_, err := lib.MeasureRunTimes(start, end, count)
+	runTimes, err := lib.MeasureRunTimes(start, end, count)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	err = lib.PlotTest()
+	data := lib.SetData(runTimes)
+
+	// err = lib.PlotTest()
+	err = lib.PlotGraph(data)
 	if err != nil {
 		fmt.Println(err)
 		return
