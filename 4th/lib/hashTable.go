@@ -2,7 +2,7 @@ package lib
 
 import "fmt"
 
-// HashTable .
+// HashTable key, valueで情報を保持する
 type HashTable struct {
 	Map map[string]string
 }
@@ -36,7 +36,7 @@ func (t *HashTable) Delete(key string) {
 
 func (t *HashTable) PrintAll() {
 	for key := range t.Map {
-		fmt.Printf("%s ", t.Map[key])
+		fmt.Printf("[%s: %s] ", key, t.Map[key])
 	}
 	fmt.Printf("\n")
 }

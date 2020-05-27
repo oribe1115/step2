@@ -2,7 +2,7 @@ package lib
 
 import "fmt"
 
-// HistoryList 直近のアクセス履歴を保持する双方向リスト
+// HistoryList 直近の更新順序を保持する双方向リスト
 type HistoryList struct {
 	Latest      *HistoryListNode
 	Oldest      *HistoryListNode
@@ -122,15 +122,21 @@ func (l *HistoryList) remove(node *HistoryListNode) *HistoryListNode {
 	return node
 }
 
-func (l *HistoryList) Cache(content string) {
+func (l *HistoryList) Cache(content string) (isDelete bool, deletedContent string) {
+	isDelete = false
+	deletedContent = ""
+
 	node := l.Search(content)
 	if node == nil {
 		l.addLatest(createHistoryListNode(content))
 		if l.Length() > l.LengthLimit {
-			l.deleteOldest()
+			isDelete = true
+			deletedContent = l.deleteOldest()
 		}
 	} else {
 		node = l.remove(node)
 		l.addLatest(node)
 	}
+
+	return isDelete, deletedContent
 }
