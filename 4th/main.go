@@ -38,4 +38,16 @@ func main() {
 	list.Print()
 	list.Cache("f")
 	list.Print()
+
+	fmt.Println("---")
+
+	table := lib.InitHashTable()
+	table.PrintAll()
+	table.Add("a", "A")
+	table.PrintAll()
+	table.Add("b", "B")
+	table.PrintAll()
+	fmt.Println(table.Exist("a"))
+	table.Delete("a")
+	fmt.Println(table.Exist("a"))
 }

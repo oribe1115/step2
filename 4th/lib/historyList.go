@@ -2,6 +2,7 @@ package lib
 
 import "fmt"
 
+// HistoryList 直近のアクセス履歴を保持する双方向リスト
 type HistoryList struct {
 	Latest      *HistoryListNode
 	Oldest      *HistoryListNode
