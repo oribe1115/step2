@@ -69,22 +69,40 @@ func (l *HistoryList) Search(content string) *HistoryListNode {
 
 func (l *HistoryList) deleteOldest() (deletedContent string) {
 	target := l.Oldest
-	nextOldest := target.Later
-	nextOldest.Older = nil
-	l.Oldest = nextOldest
+	if target == nil {
+		return ""
+	} else if target == l.Latest {
+		l.Oldest = nil
+		l.Latest = nil
+	} else {
+		nextOldest := target.Later
+		nextOldest.Older = nil
+		l.Oldest = nextOldest
+	}
 
 	return target.Content
 }
 
 func (l *HistoryList) addLatest(latest *HistoryListNode) {
-	previous := l.Latest
-	latest.Later = nil
-	latest.Older = previous
-	previous.Later = latest
-	l.Latest = latest
+	if l.Latest == nil {
+		l.Latest = latest
+		l.Oldest = latest
+	} else {
+		previous := l.Latest
+		latest.Later = nil
+		latest.Older = previous
+		previous.Later = latest
+		l.Latest = latest
+	}
 }
 
 func (l *HistoryList) remove(node *HistoryListNode) *HistoryListNode {
+	if node == l.Latest && node == l.Oldest {
+		l.Latest = nil
+		l.Oldest = nil
+		return node
+	}
+
 	if node == l.Latest {
 		l.Latest = node.Older
 		l.Latest.Later = nil
