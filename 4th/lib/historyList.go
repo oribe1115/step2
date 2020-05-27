@@ -51,6 +51,8 @@ func (l *HistoryList) Print() {
 		fmt.Printf("%s ", node.Content)
 		node = node.Older
 	}
+
+	fmt.Printf("\n")
 }
 
 func (l *HistoryList) Search(content string) *HistoryListNode {
@@ -74,10 +76,42 @@ func (l *HistoryList) deleteOldest() (deletedContent string) {
 	return target.Content
 }
 
-func (l *HistoryList) addLatest(content string) {
-	previousLatest := l.Latest
-	nextLatest := createHistoryListNode(content)
-	nextLatest.Older = previousLatest
-	previousLatest.Later = nextLatest
-	l.Latest = nextLatest
+func (l *HistoryList) addLatest(latest *HistoryListNode) {
+	previous := l.Latest
+	latest.Later = nil
+	latest.Older = previous
+	previous.Later = latest
+	l.Latest = latest
+}
+
+func (l *HistoryList) remove(node *HistoryListNode) *HistoryListNode {
+	if node == l.Latest {
+		l.Latest = node.Older
+		l.Latest.Later = nil
+	} else if node == l.Oldest {
+		l.Oldest = node.Later
+		l.Oldest.Older = nil
+	} else {
+		node.Later.Older = node.Older
+		node.Older.Later = node.Later
+
+	}
+
+	node.Later = nil
+	node.Older = nil
+
+	return node
+}
+
+func (l *HistoryList) Cache(content string) {
+	node := l.Search(content)
+	if node == nil {
+		l.addLatest(createHistoryListNode(content))
+		if l.Length() > l.LengthLimit {
+			l.deleteOldest()
+		}
+	} else {
+		node = l.remove(node)
+		l.addLatest(node)
+	}
 }
